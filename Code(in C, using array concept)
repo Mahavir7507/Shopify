@@ -1,1 +1,193 @@
-sdgdhfjghkhl
+#include<stdio.h>
+#include<string.h>
+//structure of products//
+struct products{
+	char category[100];
+	char brand_name[100];
+	int product_id;
+	char product_name[100];
+	float price;
+	char colour[100];
+	int stock;
+	char dealer[100];
+	int offer;
+	
+};
+	
+//structure of purchser including his details//
+struct purchaser_detail{
+	int id;
+	char name[100];
+	char address[200];
+	int history[100];
+	int date[100];
+	float rating[100];
+};
+
+
+
+int main(){
+	char search[100];
+	int best_seller_price;
+	int n, k=0;
+	
+	printf("\nenter value of n:");
+	scanf("%d", &n);
+	struct products sh[n];
+//products input//
+	for(int i=0;i<n;i++){
+		printf("\nenter category:");
+		scanf("%s", sh[i].category);
+		printf("\nenter brand name:");
+		scanf("%s", sh[i].brand_name);
+		printf("\nenter id:");
+		scanf("%d", &sh[i].product_id);
+		printf("\nenter product name:");
+		scanf("%s", sh[i].product_name);
+		printf("\nenter price:");
+		scanf("%f", &sh[i].price);
+		printf("\nenter colour:");
+		scanf("%s", sh[i].colour);
+		printf("\nenter stock:");
+		scanf("%d" ,&sh[i].stock);
+		printf("\nenter dealer:");
+		scanf("%s", sh[i].dealer);
+		printf("\n enter offer in %:");
+		scanf("%d", &sh[i].offer);
+		printf("\n********************");
+    }
+    //user registration//
+    
+    printf("\n\n!!!!!!! Welcome to E-Shopping !!!!!!!!\n\n");
+	struct purchaser_detail pr;
+	printf("\nuser registration:-");
+	printf("\nEnter the id: ");
+	scanf("%d", &pr.id);
+	printf("\nEnter your name: ");
+	scanf("%s", pr.name);
+	printf("\nEnter your address: ");
+	scanf("%s" ,pr.address);
+	printf("\n*************************");
+	printf("\nselect your products");
+  	printf("\nenter category or product name or colour or brand name:");
+	scanf("%s", search);
+	printf("\nenter best seller price:");
+	scanf("%d", &best_seller_price);
+	
+	//checking best seller conditions//
+	
+	for(int i=0;i<n;i++){
+		if(strcmp(sh[i].category,search)==0||strcmp(sh[i].product_name,search)==0||strcmp(sh[i].colour,search)==0||strcmp(sh[i].brand_name,search)==0){
+			if(best_seller_price>=sh[i].price){
+				printf("\n%s\t%s\t%d\t%s\t%d\t%s\t%d\t%s\t%d", sh[i].category,sh[i].brand_name, sh[i].product_id, sh[i].product_name, sh[i].price, sh[i].colour, sh[i].stock, sh[i].dealer, sh[i].offer);
+                printf("\n**********************");
+				k++;
+			}
+		}
+	}
+	if(k==0){
+		printf("\nno product is available");
+	}
+	
+	//buying the products//
+	
+	int no_of_products;
+		printf("\nenter no of products you want to purchase:");
+		scanf("%d", &no_of_products);
+	for(int i=0;i<no_of_products;i++){
+		printf("\nenter product id of %d product:", i+1);
+		scanf("%d", &pr.history[i] );
+		printf("\nenter date in DDMMYYYY format:");
+		scanf("%d", &pr.date[i]);
+		printf("\nenter rating:");
+		scanf("%f", &pr.rating[i]);
+	}
+	
+	//showing reccomondations//
+	
+	for(int j=0;j<no_of_products;j++){
+			
+		for(int a=0;a<n;a++){
+			if(pr.history[j]==sh[a].product_id){
+			    for(int b=0;b<n;b++){
+			
+			        if(strcmp(sh[b].brand_name,sh[a].brand_name)==0&&sh[b].product_id!=sh[a].product_id){
+			   	        printf("\nreccomondation :-  %s\t%s\t%d\t%s\t%d\t%s\t%d\t%s\t%d", sh[b].category,sh[b].brand_name, sh[b].product_id, sh[b].product_name, sh[b].price, sh[b].colour, sh[b].stock, sh[b].dealer, sh[b].offer);
+                         printf("\n**********************");
+		     	    }
+		        }
+		   }
+		}
+	}
+	int flag=1, flag1=1,reorder;
+	printf("\nenter reorder quantity:");
+	scanf("%d", &reorder);
+	
+	//categorywise list of products//
+	
+	for(int c=0;c<n;c++){
+		flag=1;
+		for(int j=0;j<c;j++){
+			if(sh[c].category==sh[j].category){
+				flag=0;
+			}
+		}
+	    for(int p=1;p<=reorder;p++){
+		
+			for(int j=c;j<n&&flag==1;j++){
+				if(sh[j].stock==p){
+			
+					if(sh[c].category==sh[j].category)
+					{
+						printf("\ncategory %s   :- \t%s\t%d\t%s\t%d\t%s\t%d\t%s\t%d", sh[j].category,sh[j].brand_name, sh[j].product_id, sh[j].product_name, sh[j].price, sh[j].colour, sh[j].stock, sh[j].dealer, sh[j].offer);
+            		    printf("\n");
+					}
+				}
+			}
+		}
+		
+	}
+	
+	//dealerwise list of products//
+	
+	for(int c=0;c<n;c++){
+		flag1=1;
+		for(int j=0;j<c;j++){
+			if(sh[c].dealer==sh[j].dealer){
+				flag1=0;
+			}
+		}
+		for(int p=1;p<=reorder;p++){
+			
+			for(int j=c;j<n&&flag1==1;j++){
+			
+				if(sh[j].stock==p){
+					if(sh[c].dealer==sh[j].dealer){
+			
+						printf("\ndealer %s   :- \t%s\t%s\t%d\t%s\t%d\t%s\t%d\t%s\t%d", sh[j].dealer,sh[j].category,sh[j].brand_name, sh[j].product_id, sh[j].product_name, sh[j].price, sh[j].colour, sh[j].stock, sh[j].dealer, sh[j].offer);
+             		    printf("\n");
+					 }
+         		}
+     		}
+             
+		}
+    }
+	
+	//displaying products with available offers//
+	
+	for(int i=1;i<100;i++){
+		for(int j=0;j<n;j++){
+			if(sh[j].offer==i){
+				printf("\n%d percentage offer is for:-%s\t%s\t%d\t%s\t%d\t%s\t%d\t%s\t%d",i, sh[j].category,sh[j].brand_name, sh[j].product_id, sh[j].product_name, sh[j].price, sh[j].colour, sh[j].stock, sh[j].dealer, sh[j].offer);
+            
+			}
+		}
+	}
+	
+	
+	printf("\n\n\n\n!!!!!!! Have A Nice Day !!!!!!!!");
+	
+	return 0;
+	
+	
+}
